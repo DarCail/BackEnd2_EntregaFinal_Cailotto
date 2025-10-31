@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Compra</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        .header {
+            background: #007bff;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            border-radius: 5px 5px 0 0;
+        }
+        .content {
+            background: #f8f9fa;
+            padding: 30px;
+            border: 1px solid #dee2e6;
+        }
+        .ticket-info {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-left: 4px solid #28a745;
+            border-radius: 4px;
+        }
+        .ticket-code {
+            font-size: 24px;
+            font-weight: bold;
+            color: #007bff;
+            margin: 10px 0;
+        }
+        .products-table {
+            width: 100%;
+            margin: 20px 0;
+            border-collapse: collapse;
+        }
+        .products-table th,
+        .products-table td {
+            padding: 10px;
+            text-align: left;
+            border-bottom: 1px solid #dee2e6;
+        }
+        .products-table th {
+            background: #e9ecef;
+            font-weight: bold;
+        }
+        .total {
+            font-size: 20px;
+            font-weight: bold;
+            color: #28a745;
+            text-align: right;
+            margin-top: 20px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 1px solid #dee2e6;
+            color: #6c757d;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>¡Compra Confirmada!</h1>
+    </div>
+    
+    <div class="content">
+        <p>Hola <strong>{{userName}}</strong>,</p>
+        
+        <p>Tu compra ha sido procesada exitosamente. A continuación encontrarás los detalles de tu orden:</p>
+        
+        <div class="ticket-info">
+            <p><strong>Código de Ticket:</strong></p>
+            <div class="ticket-code">{{ticket.code}}</div>
+            <p><strong>Fecha:</strong> {{ticket.purchase_datetime}}</p>
+        </div>
+
+        <h3>Productos Comprados:</h3>
+        <table class="products-table">
+            <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each ticket.products}}
+                <tr>
+                    <td>{{product.title}}</td>
+                    <td>{{quantity}}</td>
+                    <td>${{price}}</td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+
+        <div class="total">
+            Total: ${{ticket.amount}}
+        </div>
+
+        <p>Guarda este código de ticket para futuras referencias.</p>
+    </div>
+
+    <div class="footer">
+        <p>Gracias por tu compra</p>
+        <p>Este es un correo automático, por favor no responder.</p>
+    </div>
+</body>
+</html>

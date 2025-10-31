@@ -1,0 +1,51 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <h2 class="mb-4">Mis Compras</h2>
+
+      {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+      {{/if}}
+
+      {{#if tickets.length}}
+        <div class="row">
+          {{#each tickets}}
+            <div class="col-md-12 mb-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="row">
+                    <div class="col-md-8">
+                      <h5 class="card-title">
+                        <i class="bi bi-receipt"></i> {{code}}
+                      </h5>
+                      <p class="text-muted mb-2">
+                        <small>{{purchase_datetime}}</small>
+                      </p>
+                      <p class="mb-1">
+                        <strong>Total:</strong> ${{amount}}
+                      </p>
+                      <p class="mb-0">
+                        <strong>Productos:</strong> {{products.length}} item(s)
+                      </p>
+                    </div>
+                    <div class="col-md-4 text-end d-flex align-items-center justify-content-end">
+                      <a href="/tickets/{{code}}" class="btn btn-primary">
+                        Ver Detalle
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      {{else}}
+        <div class="alert alert-info">
+          <h4>No tienes compras realizadas</h4>
+          <p>Cuando realices una compra, aparecerá aquí.</p>
+          <a href="/products" class="btn btn-primary">Ver Productos</a>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>

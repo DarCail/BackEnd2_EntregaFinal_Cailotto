@@ -1,0 +1,101 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-10">
+      <h2 class="mb-4">Mi Carrito</h2>
+
+      {{#if cart.products.length}}
+        <div class="card">
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>Producto</th>
+                    <th>Precio</th>
+                    <th>Cantidad</th>
+                    <th>Subtotal</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each cart.products}}
+                    <tr>
+                      <td>{{product.title}}</td>
+                      <td>${{product.price}}</td>
+                      <td>
+                        <form action="/cart/{{product._id}}" method="POST" class="d-flex align-items-center gap-2" style="max-width: 150px;">
+                          <input type="hidden" name="_method" value="PUT">
+                          <input type="number" name="qty" value="{{qty}}" min="1" max="{{product.stock}}" class="form-control form-control-sm" onchange="this.form.submit()">
+                        </form>
+                      </td>
+                      <td>${{multiply product.price qty}}</td>
+                      <td>
+                        <form action="/cart/{{product._id}}" method="POST" style="display:inline">
+                          <input type="hidden" name="_method" value="DELETE">
+                          <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                        </form>
+                      </td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+                <tfoot>
+                  <tr>
+                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                    <td colspan="2"><strong>${{cartTotal cart.products}}</strong></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mt-3">
+              <a href="/products" class="btn btn-outline-primary">Seguir Comprando</a>
+              <button type="button" class="btn btn-success" onclick="finalizarCompra()">Finalizar Compra</button>
+            </div>
+          </div>
+        </div>
+      {{else}}
+        <div class="alert alert-info">
+          <h4>Tu carrito está vacío</h4>
+          <p>Explora nuestros productos y agrega algunos a tu carrito.</p>
+          <a href="/products" class="btn btn-primary">Ver Productos</a>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+</div>
+
+<script>
+async function finalizarCompra() {
+  if (!confirm('¿Confirmar la compra?')) return;
+
+  try {
+    const response = await fetch('/api/cart/purchase', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      let message = `¡Compra realizada exitosamente!\n\nCódigo: ${data.ticket.code}\nTotal: $${data.ticket.amount}`;
+      
+      if (data.productsNotProcessed && data.productsNotProcessed.length > 0) {
+        message += `\n\nAlgunos productos no tenían stock suficiente y permanecen en tu carrito.`;
+      }
+      
+      message += `\n\nSe ha enviado un email de confirmación a tu correo.`;
+      
+      alert(message);
+      
+      // Redirigir a la página de detalle del ticket
+      window.location.href = `/tickets/${data.ticket.code}`;
+    } else {
+      alert(`Error: ${data.error || 'No se pudo completar la compra'}`);
+    }
+  } catch (err) {
+    alert('Error al procesar la compra: ' + err.message);
+  }
+}
+</script>

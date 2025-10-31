@@ -1,0 +1,26 @@
+<div class="d-flex align-items-center justify-content-center min-vh-75">
+  <div class="col-12 col-sm-8 col-md-6">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <h3 class="text-center mb-3">Restablecer contraseña</h3>
+        {{#if error}}<div class="alert alert-danger">{{error}}</div>{{/if}}
+        {{#if success}}<div class="alert alert-success">{{success}}</div>{{/if}}
+        <form action="/auth/reset" method="POST">
+          <input type="hidden" name="token" value="{{token}}">
+          <input type="hidden" name="id" value="{{id}}">
+          <div class="mb-3">
+            <label class="form-label">Nueva contraseña</label>
+            <input type="password" name="password" class="form-control" placeholder="Mínimo 6 caracteres" required>
+          </div>
+          <div class="mb-3">
+            <label class="form-label">Confirmar contraseña</label>
+            <input type="password" name="passwordConfirm" class="form-control" placeholder="Repite la contraseña" required>
+          </div>
+          <div class="d-grid">
+            <button class="btn btn-success">Restablecer contraseña</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,40 @@
+<div class="d-flex align-items-center justify-content-center min-vh-75">
+  <div class="col-12 col-sm-9 col-md-6 col-lg-5">
+    <div class="card shadow-sm">
+      <div class="card-body p-4">
+        <div class="text-center mb-3">
+          <h3 class="mb-0">Iniciar Sesión</h3>
+          <p class="text-muted small">Ingresa con tu correo y contraseña</p>
+        </div>
+
+        {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+        {{#if success}}
+          <div class="alert alert-success">{{success}}</div>
+        {{/if}}
+
+        <form action="/auth/jwt/login" method="POST">
+          <div class="mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email" placeholder="usuario@ejemplo.com" required>
+          </div>
+          <div class="mb-3">
+            <label for="password" class="form-label">Contraseña</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="••••••••" required>
+          </div>
+          <div class="d-grid mb-2">
+            <button class="btn btn-primary" type="submit">Entrar</button>
+          </div>
+          <div class="text-center mb-3">
+            <a href="/auth/forgot" class="btn btn-sm btn-link">¿Olvidaste tu contraseña?</a>
+          </div>
+        </form>
+
+        <div class="text-center">
+          <small class="text-muted">¿No tienes cuenta? <a href="/auth/register">Regístrate</a></small>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

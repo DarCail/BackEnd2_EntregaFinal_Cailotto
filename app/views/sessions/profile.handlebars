@@ -1,0 +1,37 @@
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-body">
+        <h2 class="card-title mb-3">Perfil de usuario</h2>
+
+        {{#if error}}
+          <div class="alert alert-danger">{{error}}</div>
+        {{/if}}
+
+        <dl class="row">
+          <dt class="col-sm-3">Nombre</dt>
+          <dd class="col-sm-9">{{user.first_name}} {{user.last_name}}</dd>
+
+          <dt class="col-sm-3">Email</dt>
+          <dd class="col-sm-9">{{user.email}}</dd>
+
+          <dt class="col-sm-3">Edad</dt>
+          <dd class="col-sm-9">{{user.age}}</dd>
+
+          <dt class="col-sm-3">Rol</dt>
+          <dd class="col-sm-9"><span class="badge bg-secondary text-white">{{user.role}}</span></dd>
+        </dl>
+
+        <div class="mt-3">
+          <a class="btn btn-primary me-2" href="/orders">Ver Órdenes</a>
+          <a class="btn btn-outline-primary me-2" href="/products">Productos</a>
+          {{#if (eq user.role 'user')}}
+            <a class="btn btn-success" href="/cart">Ver Carrito</a>
+          {{else if (eq user.role 'admin')}}
+            <a class="btn btn-success" href="/products/new">Gestionar Productos</a>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

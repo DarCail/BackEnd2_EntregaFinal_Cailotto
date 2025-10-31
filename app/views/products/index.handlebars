@@ -1,0 +1,54 @@
+﻿<div class="container">
+  <div class="row mb-4">
+    <div class="col">
+      <h2>Productos</h2>
+    </div>
+    {{#if (eq user.role 'admin')}}
+      <div class="col text-end">
+        <a href="/products/new" class="btn btn-success">Nuevo Producto</a>
+      </div>
+    {{/if}}
+  </div>
+
+  {{#if error}}
+    <div class="alert alert-danger">{{error}}</div>
+  {{/if}}
+
+  <div class="row row-cols-1 row-cols-md-3 g-4">
+    {{#each products}}
+      <div class="col">
+        <div class="card h-100">
+          <div class="card-body">
+            <h5 class="card-title">{{title}}</h5>
+            <p class="card-text">{{description}}</p>
+            <p class="card-text">
+              <strong>Precio:</strong> ${{price}}
+              <br>
+              <strong>Stock:</strong> {{stock}} unidades
+            </p>
+            {{#if ../user}}
+              {{#if (eq ../user.role 'user')}}
+                <form action="/cart/{{_id}}" method="POST" class="d-flex gap-2">
+                  <input type="number" name="qty" value="1" min="1" max="{{stock}}" class="form-control form-control-sm w-25">
+                  <button type="submit" class="btn btn-primary btn-sm">Agregar al Carrito</button>
+                </form>
+              {{else if (eq ../user.role 'admin')}}
+                <div class="btn-group">
+                  <a href="/products/{{_id}}/edit" class="btn btn-outline-primary btn-sm">Editar</a>
+                  <form action="/products/{{_id}}" method="POST" style="display:inline" onsubmit="return confirm('¿Eliminar este producto?')">
+                    <input type="hidden" name="_method" value="DELETE">
+                    <button type="submit" class="btn btn-outline-danger btn-sm">Eliminar</button>
+                  </form>
+                </div>
+              {{/if}}
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    {{else}}
+      <div class="col-12">
+        <p class="text-center">No hay productos disponibles.</p>
+      </div>
+    {{/each}}
+  </div>
+</div>

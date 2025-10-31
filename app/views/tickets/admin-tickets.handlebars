@@ -1,0 +1,57 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-12">
+      <h2 class="mb-4">Gestión de Tickets</h2>
+
+      {{#if error}}
+        <div class="alert alert-danger">{{error}}</div>
+      {{/if}}
+
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h5 class="mb-0">Últimos {{tickets.length}} Tickets</h5>
+            <p class="text-muted mb-0">Total de tickets mostrados: {{tickets.length}}</p>
+          </div>
+
+          {{#if tickets.length}}
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>Código</th>
+                    <th>Fecha</th>
+                    <th>Comprador</th>
+                    <th>Productos</th>
+                    <th class="text-end">Monto</th>
+                    <th></th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {{#each tickets}}
+                    <tr>
+                      <td><code>{{code}}</code></td>
+                      <td>{{purchase_datetime}}</td>
+                      <td>{{purchaser}}</td>
+                      <td>{{products.length}} item(s)</td>
+                      <td class="text-end">${{amount}}</td>
+                      <td>
+                        <a href="/tickets/{{code}}" class="btn btn-sm btn-outline-primary">
+                          Ver Detalle
+                        </a>
+                      </td>
+                    </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+            </div>
+          {{else}}
+            <div class="alert alert-info">
+              No hay tickets registrados aún.
+            </div>
+          {{/if}}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
